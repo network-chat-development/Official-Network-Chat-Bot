@@ -1,5 +1,6 @@
 ﻿using DisCatSharp;
 using DotNetEnv;
+using MongoDB.Driver;
 
 namespace NetworkChat.Core;
 
@@ -9,11 +10,15 @@ public sealed class BotBase {
     public bool IsReady { get; private set; }
 
     public Broadcast broadcast { get; }
+    public UtilitiesCoreBot utils { get; private set; }
 
-    //private readonly string _db;
+    public MongoClient db { get; private set; }
 
     public BotBase(bool reconnect, int shardCount, string token) {
         if (shardCount < 0) throw new ArgumentOutOfRangeException(nameof(shardCount));
+
+        utils = new UtilitiesCoreBot(this);
+        db = new MongoClient("");
 
         Client = new(new()
         {

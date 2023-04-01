@@ -49,16 +49,11 @@ public sealed class Broadcast {
             var msg = await broadData.Guild.GetChannel(broadData.Refer.Channel.Id).GetMessageAsync(broadData.Refer.Message.Id);
 
             if (msg != null) {
+                var result = bot.utils.ResolveRef(msg);
 
+                Console.WriteLine(result);
+                contentData.Add("reference", result);
             }
-
-            var refStruct = new Dictionary<string, object>() {
-                { "content", compare},
-
-            };
-
-            Console.WriteLine(refStruct);
-            contentData.Add("reference", refStruct);
         }
 
         var result = await handler.PostAsync(url, new StringContent(JsonConvert.SerializeObject(contentData)));
